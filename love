@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Ankita ❤️</title>
+    <style>
+        :root {
+            --primary-red: #d63031;
+            --dark-rose: #2d0000;
+            --rose-glow: #ff7675;
+            --gold-accent: #d4af37;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #3a0007 0%, #120002 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Heart Watermark Grid Background */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="rgba(214, 48, 49, 0.04)"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>');
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .petal, .floating-heart {
+            position: absolute;
+            opacity: 0;
+            animation: floatAway 10s infinite linear;
+        }
+
+        .petal {
+            background: radial-gradient(circle at 30% 30%, #ff4d4d, var(--primary-red));
+            border-radius: 50% 0 50% 50%;
+        }
+
+        .floating-heart {
+            color: rgba(255, 118, 117, 0.6);
+            font-size: 1.5rem;
+            filter: drop-shadow(0 0 5px var(--primary-red));
+        }
+
+        @keyframes floatAway {
+            0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+            15% { opacity: 0.7; }
+            85% { opacity: 0.7; }
+            100% { transform: translateY(110vh) translateX(80px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Interactive Gift Box Scene Wrapper */
+        .box-wrapper {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        /* 3D Gift Box Container */
+        .gift-box {
+            width: 160px;
+            height: 160px;
+            background: linear-gradient(135deg, #b30000, #660000);
+            position: relative;
+            border-radius: 8px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 30px rgba(214, 48, 49, 0.3);
+            cursor: pointer;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            transform-style: preserve-3d;
+        }
+
+        .gift-box:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        /* Ribbon Crossings */
+        .ribbon-v, .ribbon-h {
+            position: absolute;
+            background: linear-gradient(to right, #ffd700, var(--gold-accent), #ffd700);
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+        }
+        .ribbon-v { width: 24px; height: 100%; left: 50%; transform: translateX(-50%); }
+        .ribbon-h { height: 24px; width: 100%; top: 50%; transform: translateY(-50%); }
+
+        /* Box Lid Elements */
+        .box-lid {
+            width: 172px;
+            height: 35px;
+            background: linear-gradient(135deg, #cc0000, #800000);
+            position: absolute;
+            top: -15px;
+            left: -6px;
+            border-radius: 4px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: left bottom;
+            z-index: 2;
+        }
+
+        .lid-ribbon-v { width: 24px; height: 100%; left: 50%; transform: translateX(-50%); position: absolute; background: var(--gold-accent); }
+        .lid-ribbon-h { height: 24px; width: 100%; top: 50%; transform: translateY(-50%); position: absolute; background: var(--gold-accent); }
+
+        .hint-text {
+            position: absolute;
+            bottom: -45px;
+            width: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            text-align: center;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px var(--rose-glow);
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+        /* Animate Box when Opened */
+        .gift-box.open .box-lid {
+            transform: translate3d(-40px, -80px, 0) rotateZ(-70deg);
+            opacity: 0;
+        }
+        .gift-box.open {
+            transform: scale(0);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* The Secret Proposal Booklet Card Inside */
+        .booklet-container {
+            position: absolute;
+            width: 90vw;
+            max-width: 500px;
+            opacity: 0;
+            transform: scale(0.6) translateY(50px);
+            pointer-events: none;
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 5;
+        }
+
+        .booklet-container.reveal {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(40, 2, 5, 0.92) 0%, rgba(20, 0, 2, 0.98) 100%);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.8), inset 0 0 30px rgba(214, 48, 49, 0.3);
+            position: relative;
+        }
+
+        /* Classic Booklet Style Golden Trim Design Corners */
+        .card::before, .card::after {
+            content: "";
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            pointer-events: none;
+        }
+        .card::before { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+        .card::after { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+
+        /* 3D Dynamic Rose Setup Component */
+        .rose-icon {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 20px;
+            position: relative;
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+
+        .petal-layer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff3333, #800000);
+            transform: translate(-50%, -50%);
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.6);
+        }
+
+        .layer-1 { width: 25px; height: 25px; z-index: 5; border-radius: 50% 50% 0 50%; transform: translate(-50%, -50%) rotate(45deg); }
+        .layer-2 { width: 45px; height: 45px; z-index: 4; transform: translate(-50%, -50%) rotate(90deg); }
+        .layer-3 { width: 65px; height: 65px; z-index: 3; transform: translate(-50%, -50%) rotate(135deg); }
+        .layer-4 { width: 85px; height: 85px; z-index: 2; opacity: 0.85; }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px var(--primary-red)); }
+            50% { transform: scale(1.06); filter: drop-shadow(0 0 22px var(--rose-glow)); }
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 2.1rem;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+
+        .highlight {
+            color: var(--rose-glow);
+            display: block;
+            font-size: 2.3rem;
+            margin-top: 5px;
+            font-weight: bold;
+            text-shadow: 0 0 15px rgba(255, 118, 117, 0.4);
+        }
+
+        .hidden-confession {
+            color: #ff4d4d;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 15px 0;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(255,77,77,0.6);
+            animation: pulse 1s infinite alternate;
+        }
+
+        .location {
+            color: #d1b8ff;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        p.message {
+            color: #fcefeef2;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .btn {
+            padding: 14px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            outline: none;
+        }
+
+        .btn-yes {
+            background: linear-gradient(45deg, var(--primary-red), #ff4d4d);
+            color: white;
+            box-shadow: 0 8px 25px rgba(214, 48, 49, 0.4);
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.08);
+            box-shadow: 0 12px 35px rgba(214, 48, 49, 0.6);
+        }
+
+        .btn-no {
+            background: rgba(255, 255, 255, 0.08);
+            color: #eee;
+            border: 1px solid rgba(255,255,255,0.15);
+            position: relative;
+        }
+
+        /* Success Overlay Screen */
+        .success-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #260004 0%, #000000 100%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.2s ease;
+        }
+
+        .success-screen.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .big-heart {
+            font-size: 6.5rem;
+            animation: heartbeat 0.7s infinite alternate ease-in-out;
+            filter: drop-shadow(0 0 25px var(--primary-red));
+        }
+
+        @keyframes heartbeat { to { transform: scale(1.22); } }
+
+        .success-screen h2 {
+            color: #fff;
+            font-size: 2.4rem;
+            margin-top: 25px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-particles" id="particlesContainer"></div>
+
+    <div class="box-wrapper" id="boxWrapper">
+        <div class="gift-box" onclick="openBox()">
+            <div class="box-lid">
+                <div class="lid-ribbon-v"></div>
+                <div class="lid-ribbon-h"></div>
+            </div>
+            <div class="ribbon-v"></div>
+            <div class="ribbon-h"></div>
+            <div class="hint-text">Ankita, Open Me ✨</div>
+        </div>
+    </div>
+
+    <div class="booklet-container" id="proposalBooklet">
+        <div class="card">
+            <div class="rose-icon">
+                <div class="petal-layer layer-4"></div>
+                <div class="petal-layer layer-3"></div>
+                <div class="petal-layer layer-2"></div>
+                <div class="petal-layer layer-1"></div>
+            </div>
+            
+            <h1>My Dearest, <span class="highlight">Ankita Rout</span></h1>
+            <span class="location">Bhubaneswar</span>
+            
+            <div class="hidden-confession">I LOVE YOU ❤️</div>
+            
+            <p class="message">
+                "Like a red rose blooming amidst the dynamic beauty of life, you brought colors, warmth, and endless love into my world. My heart beats exclusively to your rhythm."
+            </p>
+
+            <h3 style="color: #fff; margin-bottom: 25px; font-size: 1.2rem; font-weight: normal;">Will you make me the happiest person and be mine forever?</h3>
+
+            <div class="btn-group">
+                <button class="btn btn-yes" onclick="celebrate()">Yes, I Will!</button>
+                <button class="btn btn-no" id="noBtn" onmouseover="dodgeButton()">No</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="success-screen" id="successScreen">
+        <div class="big-heart">❤️</div>
+        <h2>Forever & Always, Ankita! 🌹</h2>
+        <p style="color: var(--rose-glow); margin-top: 15px; font-size: 1.2rem; font-style: italic;">You just made me the luckiest person in the world.</p>
+    </div>
+
+    <script>
+        // Setup environment dynamic float elements loop
+        const container = document.getElementById('particlesContainer');
+        for (let i = 0; i < 40; i++) {
+            const isHeart = Math.random() > 0.5;
+            const element = document.createElement('div');
+            if (isHeart) {
+                element.classList.add('floating-heart');
+                element.innerHTML = '❤️';
+            } else {
+                element.classList.add('petal');
+                element.style.width = Math.random() * 14 + 10 + 'px';
+                element.style.height = element.style.width;
+            }
+            element.style.left = Math.random() * 100 + 'vw';
+            element.style.animationDelay = Math.random() * 8 + 's';
+            element.style.animationDuration = Math.random() * 5 + 7 + 's';
+            container.appendChild(element);
+        }
+
+        // Open gift box trigger handling
+        function openBox() {
+            const box = document.querySelector('.gift-box');
+            box.classList.add('open');
+            
+            setTimeout(() => {
+                document.getElementById('boxWrapper').style.display = 'none';
+                document.getElementById('proposalBooklet').classList.add('reveal');
+            }, 600);
+        }
+
+        // Escape engine vector execution for rejection control button
+        function dodgeButton() {
+            const btn = document.getElementById('noBtn');
+            const newX = Math.random() * (window.innerWidth - btn.offsetWidth - 60) + 30;
+            const newY = Math.random() * (window.innerHeight - btn.offsetHeight - 60) + 30;
+            btn.style.position = 'fixed';
+            btn.style.left = `${newX}px`;
+            btn.style.top = `${newY}px`;
+        }
+
+        function celebrate() {
+            document.getElementById('successScreen').classList.add('active');
+        }
+    </script>
+</body>
+</html>
